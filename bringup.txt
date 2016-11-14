@@ -1,0 +1,365 @@
+Bringup Text
+
+Rasperry Project
+
+Basic npm packages useful for this effort:
+  express, onoff, command-line-args, properties-reader, gpio (this could be instalelled already)
+
+  Installed Node 7, 10.29 has a but with a constant precluding all npm packages
+  with native code.
+
+  To install the Node 7 for Debian Jessie/Raspian/Pixel
+  https://github.com/nodesource/distributions
+
+  - When done, your raspian image will be the Pixel release
+
+  - Once install node, run with nodejs
+  - npm installed via apt-get will fail, don't do that, node has a basic npm installed with it
+  - to install: npm install npm  (simple, but took me a while)
+
+
+a) Which package to choose to work the PI
+
+   - looked at rpi, rpi-gpio, gpio, onoff and others
+   - onoff seems to have the best docs and other sites using it
+
+   http://thejackalofjavascript.com/raspberry-pi-node-js-led-emit-morse-code/
+   http://www.robert-drummond.com/2013/06/06/raspberry-pi-gpio-inputoutput-in-javascript/
+   https://www.npmjs.com/package/onoff
+   https://learn.adafruit.com/node-embedded-development?view=all
+
+   i2c access: https://www.npmjs.com/package/rasp2c
+
+b) Tools to improve the permissions
+
+git clone git://github.com/quick2wire/quick2wire-gpio-admin.git
+cd quick2wire-gpio-admin
+make
+sudo make install
+sudo adduser $USER gpio
+
+c) Server scaffolding
+
+   iot pjd 2 is 192.168.1.111  (u:pi)
+
+   1) express code that boostraps a restful server, add a function to turn off and turn on
+      the life.
+
+   2) Install remote access to ease working with this.
+
+       sudo apt-get install xrdp  (installs a bunch of other stuff)
+
+   3) Windows Remote Desktop and SSH (Putty on windows) enabled.  Done
+
+   4) Node program and web version to toggle the light
+
+   5) Sense a push button and event a target peer
+
+   6) Github
+
+   7) True restful solution to ease creation of all of this...
+
+   		- enable easy restful client
+   		- enable restful browser, show postman on chrome/linux, curl
+
+ d) iot pjd 1 is 192.168.1.110 (u:pi)
+
+    pwd changed  (passwd)
+
+    Upgrade: http://raspberrypi.stackexchange.com/questions/27858/upgrade-to-raspbian-jessie/27859
+
+    Net - if not at Jessie/Pixel, level upgrade!
+
+
+
+    Backup any files which are important to you.
+
+    With your new or existing install.
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get dist-upgrade
+
+    to make sure wheezy is fully up to date.
+
+    Edit /etc/apt/sources.list and change wheezy to jessie.
+
+    Reboot
+
+    Then update and upgrade again
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get dist-upgrade
+
+    Reboot
+
+    node -v  (if still 10.29, should be, need to remove or can't install gpio packages)
+
+    Remove Node, NPM and node-red
+
+    sudo apt-get remove nodered
+    sudo apt-get remove npm
+    sudo apt-get remove nodejs
+    sudo apt-get autoremove
+
+    Reboot
+
+    Followed: https://github.com/nodesource/distributions
+
+    1) upgrade OS (see above)
+    2) install node (after remove early version, see below for debian command)
+    3) upgrade npm
+   
+    curl -sL https://deb.nodesource.com/setup_7.x | sudo bash -
+
+    (did not work on second, older level pi, need another, seems based on arm6 vs. arm7 lik pjdiot2)
+
+      --------------  Node 6.9.1 on ARM6 for iot1   ----------------
+
+    To get file:
+      www.nodejs.org in browser
+      download linux/arm6 version
+      cd /usr/local
+      sudo mkdir nodeV.xx  (e.g. node 6.91 ->  node6.91)
+      cd nodeV.xx
+      sudo tar -xvf .../<image>.xz
+      edit user .profile, and add export PATH=$PATH:...{dir where unpack}/bin
+      edit user .bashrc, needed for terminal windows in gui
+      logout
+      node -v  (should work )
+
+      ** update to make faster - npm set progress=false  (rough, no errors, but much faster if works)
+
+      npm install npm
+      download gcos code
+      cd gcos
+      npm install
+
+    Show kernel version and system architecture
+
+uname -a
+
+Show name and version of distribution
+
+head -n1 /etc/issue
+
+Show all partitions registered on the system
+
+cat /proc/partitions
+
+Show RAM total seen by the system
+
+grep MemTotal /proc/meminfo
+
+Show CPU(s) info
+
+grep "model name" /proc/cpuinfo
+
+Show info about disk sda
+
+hdparm -i /dev/sda
+
+Run GPI Test with basic LED (led, resister, tied to gpio  24 (9 down on right))
+
+  sudo gpio -g mode 24 output
+  sudo gpio -g write 24 1
+  sudo gpio -g write 24 0
+
+
+    In home/pi/projects/gcos (mirror other system)
+
+    npm install --save onoff
+    npm install --save properties-reader
+    npm install --save collections
+    npm install --save command-line-args
+
+    since npm not in path, when tried to install sudo for onoff, had to do sudo sudovis, add Default   !secure, and common secure entry
+    after that, sudo npm if needed worked...
+
+    
+-------------------------------------------------------------------------
+
+Integrating GPIO to GCOS
+
+a) onoff information of use
+
+  Manual
+  i) https://www.npmjs.com/package/onoff
+
+  Key example:
+  var Gpio = require('onoff').Gpio,
+  led = new Gpio(14, 'out'),
+  button = new Gpio(4, 'in', 'both');
+ 
+  button.watch(function (err, value) {
+  if (err) {
+    throw err;
+  }
+ 
+  led.writeSync(value);
+  });
+ 
+  process.on('SIGINT', function () {
+   led.unexport();
+   button.unexport();
+  });
+  
+  Example Files
+   i) from onff github example, improved, handles ^C
+        https://github.com/fivdi/onoff/blob/master/examples/light-switch.js
+   ii) blink-led-async.js  https://github.com/fivdi/onoff/blob/master/examples/blink-led-async.js
+   iii) blink-led.js  https://github.com/fivdi/onoff/blob/master/examples/blink-led.js
+
+  Pull Up Resistors w/onoff
+  i) https://github.com/fivdi/onoff/wiki/Enabling-Pullup-and-Pulldown-Resistors-on-The-Raspberry-Pi
+
+  Generic use of JavaScript setInterval/clearInterval
+  i) http://stackoverflow.com/questions/18957186/javascript-setinterval-clearinterval-simple-example-not-working-explained
+
+  Key Questions
+  1) how to scope these variables, or should I?
+  2) how to clean up resources so have a reliable solutoin
+  3) how to process generic concepts with GPIO rules
+
+
+  --------------------------------------------------------------------------------------------------
+
+  Bootstrapping Code
+
+  putty in, cd directory
+  puttyftp in, cd directory
+  puttyftp lcd to source directory
+  npm install
+  nodejs gcos.js
+
+  ---------------------------------------------------------------------------------------------------
+
+  TODO:
+
+  a) busy model/architectural control
+  b) require code per resource allowing programmers to quickly code modules and include,
+     e.g. ../res/resourceX.js
+     Use base instance, e.g. red_light (core card)
+     Link to logical resource and instance id
+  c) Metrics per module call
+  d) Employ permissions code
+
+
+==> why is old pi so slow?
+
+      npm set progress=false  (major improvement)
+
+
+--------------------------------------------------------------------------------------------
+
+SSH not allowing you in, complain of Software Error?
+
+"Network error: Software caused connection abort"
+
+I had the same issue, which was caused by incorrectly generated SSH keys (during first boot). Check this by opening a terminal and going into the /etc/ssh directory. You will see a bunch of files, 6 of them looking like 'ssh_host_###_key'. If these are 0 bytes in size, you are affected by this as well. 
+
+Follow these steps to fix the issue:
+
+(since can't login, need to hook pi to a monitor/keyboard, just statng the obvious)
+
+First, remove the old keys:
+Shell Command: (these keys may not exist, sometimes they do, sometimes not)
+
+sudo rm /etc/ssh/ssh_host_*_key*
+
+Now generate new ones. 
+
+a) The command will ask you to set a passphrase or press enter to continue. Do not set a passphrase!
+b) Sometimes sudo required.
+
+Shell commands:
+ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+ssh-keygen -t ecdsa -f /etc/ssh_host_ecdsa_key
+
+
+Restart SSH server:
+
+Shell Command:
+
+service ssh restart  (or reboot)
+
+------------------------------------------------------------------------------------
+
+Deploying GCOS to many pies...
+
+code master (windows) :psftp
+
+lcd C:\pdykes\data\projects\iot\school\gc\deviceteam\gcos\mvp1
+
+pi client:
+
+
+cd /home/pi/projects/gcos_v002
+npm set progress=false               [fast! do this only after done it once to make sure ok]
+npm install
+
+
+------------------------------------------------------------------------------------
+
+Single Node Pattern
+
+  Reference http://stackoverflow.com/questions/20967006/how-to-create-a-sleep-delay-in-nodejs-that-is-blocking
+
+function LedController(timeout) {
+  this.timeout = timeout || 100;
+  this.queue = [];
+  this.ready = true;
+}
+
+LedController.prototype.send = function(cmd, callback) {
+  sendCmdToLed(cmd);
+  if (callback) callback();
+  // or simply `sendCmdToLed(cmd, callback)` if sendCmdToLed is async
+};
+
+LedController.prototype.exec = function() {
+  this.queue.push(arguments);
+  this.process();
+};
+
+LedController.prototype.process = function() {
+  if (this.queue.length === 0) return;
+  if (!this.ready) return;
+  var self = this;
+  this.ready = false;
+  this.send.apply(this, this.queue.shift());
+  setTimeout(function () {
+    self.ready = true;
+    self.process();
+  }, this.timeout);
+};
+
+var Led = new LedController();
+
+Now you can call Led.exec and it'll handle all delays for you:
+
+Led.exec(cmd, function() {
+  console.log('Command sent');
+});
+
+
+------------------------------------------------------------------------------
+
+JSON Parsing Tutorial - useful
+
+https://www.codementor.io/nodejs/tutorial/how-to-use-json-files-in-node-js
+
+------------------------------------------------------------------------------
+
+git 
+
+ - I had to use my github account password vs. the access token
+ - careful when creating the access tokens, you need to give plenty of permissions
+
+ - permissions
+     - the files are read-only, some how
+     - to change  attrib -r +s c:\<directory>
+
+
