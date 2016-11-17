@@ -45,30 +45,39 @@ Install and Setup GCOS on PI and Windows
 - On windows, you will run the command line (can do this on linux/pi as well) for management
 - On raspberry pi, you will run gcos and it will load modules to interact with resources and circuits
 
+Setup Git
 
 - Download from git hub (install and run git on pi)
    - Download git for windows (google - download windows git, install) and pi (see above if did not already, e.g. apt-get)
    - Download node for windows (google - windowss 64 bit msi installer, install)
+
+Check if node current
+
    - Open new a shell window (new is important, your path will be updated to find new tools!)
        Issue the commands to see if tools installed ok (your "toolchain")
          node -v  (getting 6.91 or higher is good)  [if not found, reinstall node]
          npm -v (getting 3.+ is good)  [intalled with node]
          git --v (yes, two dashes, should 2.7.x or higher) [if not found, reinstall git]
+
+Install GCOS
+
    - Create the expected code directories
       - Open a shell
       - Make a projects directory
           mkdir projects
           cd projects
-   - Pull the code from github with your git command
-      - git target https://github.com/pdykes/gcos  (you may have to run twice if not ran every before)
-      - git will create a sub directory gcos
+
+   - Pull the code from github with your git command (this will create a gcos subdirectory with the code)
+      - git clone https://github.com/pdykes/gcos  (you may have to run twice if not ran every before)
       - cd gcos  (created by git command above)
+
       - [if on windows only]  
           - on the windows start icon
           - search for "powershell" 
           - right click on the entry and select "Run as adminstrator"
           - npm install windows-build-tools
           - exit the windows
+          
       - open a new shell window (not a powershell)
       - cd to the projcts\gcos created above
          e.g. cd projects
