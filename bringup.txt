@@ -363,3 +363,19 @@ git
      - to change  attrib -r +s c:\<directory>
 
 
+--------------------------------------------------------------------------------
+
+Command Line Interface
+
+Structure
+
+nodejs manage.js --control "target name" 
+                 --resource "resource name"
+                 --operation "init" or "start" or "status" or "stop" or "toggle" or "unload"
+ 
+nodejs manage.js -c "target name"
+                 -r "resource name"
+                 -o "init" or "start" or "status" or "stop" or "toggle" or "unload"
+
+                 
+

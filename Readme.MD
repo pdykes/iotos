@@ -83,14 +83,86 @@ Install and Setup GCOS on PI and Windows
 
 
 - To enable debug
-   - cd working directory
+   - cd working directory (manage is the CLI, gcos is the server on PI, and led_light is example IoT extension in ext\)
    - Windows
-   		set DEBUG=gcos,led_light
+   		set DEBUG=manage,gcos,led_light
    - Pi (debian)
-        export DEBUG=gcos,ld_light
+        export DEBUG=manage,gcos,ld_light
 
    - Debug lines will be colored
-         
 
+- Server Start
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node gcos.js
+GCOS Bootstrap [os:win32 arch:x64]
+GCOS Version v0.0.2 11/10/2016 Instance: player_1_pi
+GCOS Initializing Resource Mapping: configuration.json
+GCOS Port assigned from config file: 8085
+GCOS IP Address assigned from config file: 192.168.1.111
+GCOS Instance: player_1_pi on 8085 initializing...
+
+GCOS Ctrl-C to exit.
+
+GCOS Instance player_1_pi established on port 8085
+GCOS Utilize "mgcos" or "nodejs mgcos" to manage via command line
+GCOS Web access at: http://192.168.1.111:8085/api/v01/welcome
+
+GCOS Welcome!
+         
+- Command line function
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node manage.js -d init -r red_warning_light
+Management Command [os:win32 arch:x64]
+GCOS Version v0.0.2 11/10/2016 Target host: player_1_pi
+GCOS Initializing Resource Mapping: configuration.json
+GCOS Port assigned from config file: 8085
+GCOS IP Address assigned from config file: 192.168.1.111
+GCOS CLI Control Init Operation Initiated to http://192.168.1.111:8085/api/v01/ctrl
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node manage.js -d start -r red_warning_light
+Management Command [os:win32 arch:x64]
+GCOS Version v0.0.2 11/10/2016 Target host: player_1_pi
+GCOS Initializing Resource Mapping: configuration.json
+GCOS Port assigned from config file: 8085
+GCOS IP Address assigned from config file: 192.168.1.111
+GCOS CLI Control Start Operation Initiated to http://192.168.1.111:8085/api/v01/ctrl
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node manage.js -d toggle -r red_warning_light
+Management Command [os:win32 arch:x64]
+GCOS Version v0.0.2 11/10/2016 Target host: player_1_pi
+GCOS Initializing Resource Mapping: configuration.json
+GCOS Port assigned from config file: 8085
+GCOS IP Address assigned from config file: 192.168.1.111
+GCOS CLI Control Toggle Operation Initiated to http://192.168.1.111:8085/api/v01/ctrl
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node manage.js -d toggle -r red_warning_light
+Management Command [os:win32 arch:x64]
+GCOS Version v0.0.2 11/10/2016 Target host: player_1_pi
+GCOS Initializing Resource Mapping: configuration.json
+GCOS Port assigned from config file: 8085
+GCOS IP Address assigned from config file: 192.168.1.111
+GCOS CLI Control Toggle Operation Initiated to http://192.168.1.111:8085/api/v01/ctrl
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node manage.js -d unload -r red_warning_light
+Management Command [os:win32 arch:x64]
+GCOS Version v0.0.2 11/10/2016 Target host: player_1_pi
+GCOS Initializing Resource Mapping: configuration.json
+GCOS Port assigned from config file: 8085
+GCOS IP Address assigned from config file: 192.168.1.111
+GCOS CLI Control Unload Operation Initiated to http://192.168.1.111:8085/api/v01/ctrl
+
+C:\data\projects\iot\school\gc\deviceteam\gcos\mvp1>node manage.js --help
+Management Command [os:win32 arch:x64]
+Command options:
+ --verbose/-v    - Verbose Mode at startup
+ --directive/-d  - Directive mode*
+ --resource/-r   - Name of resource*
+ --port/-p       - Target port override
+ --targethost/-t - Target host override
+ --configFile/-f - Configuration file
+ --help/-h       - Help
+
+ * required
 
 

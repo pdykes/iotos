@@ -1,0 +1,23 @@
+{
+  "name": "mvp1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cfenv": "^1.0.3",
+    "collections": "^5.0.5",
+    "command-line-args": "^3.0.3",
+    "debug": "^2.3.2",
+    "express": "^4.14.0",
+    "node-rest-client": "^2.0.1",
+    "onoff": "^1.1.1",
+    "os": "^0.1.1",
+    "properties-reader": "0.0.15"
+  }
+}
