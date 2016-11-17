@@ -9,7 +9,7 @@
 // e) Proivde access control of who can access a given resource
 // f) Enable exclusive and shared usage by consumers
 //
-// // Author: P Dykes/pdykes@gmail.com
+// 
 //
 // Static PI URLS based on onboard engineering
 // Standardized across all PIs by engineering team
@@ -411,51 +411,48 @@ app.post( IT_configuration.gcos_root_uri + control, function (req, res) {
   // PJD TODO  - add concurrency control in name space for each resource, e.g. if (busy) => return 503?
   if ((os_arch == "arm") && (os_platform == "linux")) {
     debug("Arch Specific: linux/arm processing.");
-    if (client_resource == "red_warning_light") {   // need to make more genreic TODO PERRY
-      debug("Resource: "  + client_resource + " processing " + command);
-      debug("Resource Status: "  + JSON.stringify(resource_status[resource_basis][resource_instance]));
-      if (resource_status[resource_basis][resource_instance].busy == basis_available) {
-        resource_metrics_update(client_resource);
-        resource_basis_metrics_update(resource_basis, resource_instance);
-      } else {
-        console.log("Warning: Resource " + client_resource + " busy, ignore " + command + " request");
-        resources_mark_reject(client_resource, resource_basis, resource_instance);
-        // queueing will be implemented here, but major issue is by the client
-        res.status(500).send("Error: Client requested resource [" + client_resource + "] and encountered busy error! Attempt again in future.");
-        return;
-      }
+    debug("Resource: "  + client_resource + " processing " + command);
+    debug("Resource Status: "  + JSON.stringify(resource_status[resource_basis][resource_instance]));
+    if (resource_status[resource_basis][resource_instance].busy == basis_available) {
+      resource_metrics_update(client_resource);
+      resource_basis_metrics_update(resource_basis, resource_instance);
+    } else {
+      console.log("Warning: Resource " + client_resource + " busy, ignore " + command + " request");
+      resources_mark_reject(client_resource, resource_basis, resource_instance);
+      // queueing will be implemented here, but major issue is by the client
+      res.status(500).send("Error: Client requested resource [" + client_resource + "] and encountered busy error! Attempt again in future.");
+      return;
+    }
       
-      // disable for now TODO PERRY resource_status[resource_basis][resource_instance].busy = basis_busy;            // lock resoruce basis
-      switch (command) {
-        case "init":
-          console.log("init...");
-          resource_status[resource_basis][resource_instance].module = require("./ext/" + resource_basis + ".js");
-          json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio_mode, resource_basis_gpio_port);
-
-          break;
-        case "start":
-          var data = null;
-          json_return_data.response = resource_status[resource_basis][resource_instance].module.start(data);
-          break;
-        case "status":
-          var data = null;
-          json_return_data.response = resource_status[resource_basis][resource_instance].module.status(data);
-          break;
-        case "stop":
-          var data = null;
-          json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(data);
-          break;
-        case "toggle":
-          var data = null;
-          json_return_data.response = resource_status[resource_basis][resource_instance].module.toggle(data);
-          break;        
-        case "unload":
-          var data = null;
-          json_return_data.response = resource_status[resource_basis][resource_instance].module.unload(data);
-          break;
-        default:
-          console.log("Unknown operation requested: " + command);
-      }
+    // disable for now TODO PERRY resource_status[resource_basis][resource_instance].busy = basis_busy;            // lock resoruce basis
+    switch (command) {
+      case "init":
+        console.log("init...");
+        resource_status[resource_basis][resource_instance].module = require("./ext/" + resource_basis + ".js");
+        json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio_mode, resource_basis_gpio_port);
+      break;
+      case "start":
+       var data = null;
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.start(data);
+      break;
+      case "status":
+       var data = null;
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.status(data);
+      break;
+      case "stop":
+       var data = null;
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(data);
+      break;
+      case "toggle":
+       var data = null;
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.toggle(data);
+      break;        
+      case "unload":
+       var data = null;
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.unload(data);
+      break;
+      default:
+       console.log("Unknown operation requested: " + command);
     }
    }
   resource_status[basis_id][instance_id].busy = basis_available;   // have control, unlock resource basis
