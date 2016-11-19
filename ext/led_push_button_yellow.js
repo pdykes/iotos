@@ -17,7 +17,7 @@
 //
 //   - Start -> GPIO Pin X (in config file) ->  Long Led lead -> 
 //              330k ohm resistor -> Terminate GND/0V
-var module_name = "led_light";
+var module_name = "led_push_button_yellow";
 //
 //var debug = require('debug')('http'), http = require('http'), name = module_name;
 var debug = require("debug")(module_name);
@@ -38,10 +38,15 @@ debug("debug enabled in module: " + module_name);
 //
 var State = null;   // 0  - ready state for init, 1 - start, stop and toggle, 2 - after stop, ready for unload, rest to 0
 var Gpio = null;
+var button = null;
 var led = null;
 
-var gpio_pin  = 0;
-var gpio_mode = 'out';
+var gpio_button_pin  = 0;
+var gpio_button_mode = null;
+var gpio_button_opt = null;
+var gpio_led_pin  = 0;
+var gpio_led_mode = null;
+
 
 //
 // init function - used to establish the gpio such that can start, stop and toggle the device
@@ -58,15 +63,21 @@ function init(gpio_object) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g c
  // Assign the information needed for on/off api from the gpio object
 
   // user defines the data structure and variable names in json confiuguation file (see gcons.ini)
-  gpio_pin  = gpio_object.led_pin.led_gpio_pin;
-  gpio_mode = gpio_object.led_pin.led_mode;
+  gpio_led_pin  = gpio_object.led_pin.led_gpio_pin;
+  gpio_led_mode = gpio_object.led_pin.led_mode;
 
-  debug("Module [" + module_name + "] init [Mode: " + gpio_mode + " Pin: " + gpio_pin + "]");
+  gpio_button_pin  = gpio_object.button_pin.button_gpio_pin;
+  gpio_button_mode = gpio_object.button_pin.button_mode;
+  gpio_button_opt  = gpio_object.button_pin.button_edge;
+
+  debug("LED Module [" + module_name + "] init [Mode: " + gpio_led_mode + " Pin: " + gpio_led_pin + "]");
+  debug("Button Module [" + module_name + "] init [Mode: " + gpio_button_mode + " Pin: " + gpio_button_pin + " Option: " + gpio_button_opt +"]");
 
  try {
   // Gpio = require("onoff").Gpio, led = new Gpio(Gpio_pin, Gpio_mode),  iv;
   Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-  led = new Gpio(gpio_pin, gpio_mode);         // Export GPIO #14 as an output.
+  led = new Gpio(gpio_led_pin, gpio_led_mode),
+  button = new Gpio(gpio_button_pin, gpio_button_mode, gpio_button_opt);     // Export GPIO #14 as an output.
  } catch (err) {
 	console.log("Error: " + err);
 	return (err);
@@ -88,7 +99,24 @@ function start(data) {
 
  debug("start started");
 
- var result = led.writeSync(1);
+ button.watch(function (err, value) {
+  if (err) {
+    throw err;
+  }
+
+  if (value === 0) {
+    console.log('Yellow Warning BUTTON PRESSED!');
+  } else {
+    console.log('Yellow Warning BUTTON RELEASED!');
+    led.writeSync(led.readSync() ^ 1);
+  }
+
+  // toggle light with each press/release cycle on light
+
+  // button.unexport(); // Unexport GPIO and free resources
+ });
+
+ // var result = led.writeSync(1);
 
  var data_response = {
  	"module"      : module_name,
@@ -107,13 +135,15 @@ function status(data) {
 
  debug("status started")
 
- var result = led.readSync();
+ var resultl = led.readSync();
+ var resultb = button.readSync();
 
  var data_response = {
  	"module"      : module_name,
  	"method"      : "status",
  	"status"      : "tbd",
- 	"pin_read"    : led.readSync(),
+ 	"pin_led_read"      : resultl,
+  "pin_button_read"   : resultb,
  	"return_code" : "200"
  };
 
@@ -163,7 +193,8 @@ function unload(data) {
 
  debug("unload started")
 
- var result = led.unexport();
+ var resultl = led.unexport();
+ var resultb = button.unexport();
 
  var data_response = {
  	"module"      : module_name,

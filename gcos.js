@@ -386,8 +386,7 @@ app.post( IT_configuration.gcos_root_uri + control, function (req, res) {
   // get details
   var resource_basis    = resource_object.basis;
   var resource_instance = resource_object.instance;
-  var resource_basis_gpio_port = resource_object.gpio_port;
-  var resource_basis_gpio_mode = resource_object.mode;
+  var resource_basis_gpio = resource_object.gpio;
 
   console.log("  => First touch "  + JSON.stringify(resource_status[resource_basis][resource_instance]));
 
@@ -429,7 +428,7 @@ app.post( IT_configuration.gcos_root_uri + control, function (req, res) {
       case "init":
         console.log("init...");
         resource_status[resource_basis][resource_instance].module = require("./ext/" + resource_basis + ".js");
-        json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio_mode, resource_basis_gpio_port);
+        json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio);
       break;
       case "start":
        var data = null;

@@ -77,7 +77,7 @@ Install GCOS
           - right click on the entry and select "Run as adminstrator"
           - npm install windows-build-tools
           - exit the windows
-          
+
       - open a new shell window (not a powershell)
       - cd to the projcts\gcos created above
          e.g. cd projects
@@ -174,4 +174,22 @@ Command options:
 
  * required
 
+
+-------------------------------------------------------------------------------------------
+
+Reference Information
+
+- GPIO Library
+
+  After a pretty lenthy review, GCOS utilizes Raspberry Pi GPIO library is the "on/off" package.
+  This is for a few reasons:
+
+    - npm install is supported, allowing easy install and bringup for new folks
+        npm install --save onoff 
+    - supports nearly all the GPIO programming model (GCOS can let you use other models as well) 
+    - well used and many examples on the web using this library and includes several good libraries
+
+  See https://github.com/fivdi/onoff  for more information on github. This knowledge will be useful 
+  for more advanced work.  GCOS tries to unleash the solution, not contain it. Thus, you should be
+  able to extend GCOS once you get more experienced.
 

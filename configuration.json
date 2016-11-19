@@ -9,66 +9,117 @@
 			"red_warning_light": {
 				"basis" : "led_light",
 				"instance" : "1",
-				"gpio_port": "24",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "24", 
+                   	  "led_mode" : "out"
+                   }
+				}				
 			},
-			"yellow_warn_light": {
-				"basis" : "led_yellow",
+			"manual_yellow_warn_light": {
+				"basis" : "led_push_button_yellow",
 				"instance" : "1",
-				"gpio_port": "25",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+                   "button_pin" : {
+                   	  "button_gpio_pin" : "26", 
+                   	  "button_mode" : "in",
+                   	  "button_edge" : "both"
+                   },
+                   "led_pin" : {
+                   	  "led_gpio_pin" : "21", 
+                   	  "led_mode" : "out"
+                   }
+				}
 			},
+			"blue_push_button": {
+				"basis" : "push_button_basic",
+				"instance" : "1",
+				"gpio" : {
+                   "firstPort" : {
+                   	  "port" : "26", 
+                   	  "mode" : "out",
+                   	  "edge" : "both"
+                   }
+				}
+			},	
+		    "mega_example_light": {
+				"basis" : "led_push_button_yellow",
+				"instance" : "1",
+				"gpio" : {
+                   "first_pin" : {
+                   	  "first_gpio_pin" : "4", 
+                   	  "first_mode" : "in",
+                   	  "first_edge" : "both",
+                   	  "options" : {
+                          "debounceTimer:" :  "9",
+                          "activeLow:" : "false"
+                   	  }
+                   },
+                   "second_pin" : {
+                   	  "second_gpio_in" : "14", 
+                   	  "second_mode" : "out"
+                   }
+				}
+			},		
 			"polution_control_pump": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"pump_pin" : {
+                   	  "pump_gpio_pin" : "16", 
+                   	  "pump_mode" : "out"
+                   }
+				}
 			},
 			"irrigation": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"irrigation_pin" : {
+                   	  "irrigation_gpio_pin" : "14", 
+                   	  "irrigation_mode" : "out"
+                   }
+				}
 			},
 			"moisture_sensor": {
 				"basis" : "moisture_sensor",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "moisture_gpio_pin" : "14", 
+                   	  "moisture_mode" : "out"
+                   }
+				}
 			},
 			"town_warning": {
 				"basis" : "active_siren",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"town_meeting": {
 				"basis" : "active_siren",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"meeting_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"tornado_warning": {
 				"basis" : "active_siren",
 				"instance" : "3",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"warning_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			}			
 		},
 		"permissions": {
@@ -116,67 +167,118 @@
 			"red_warning_light": {
 				"basis" : "led_light",
 				"instance" : "1",
-				"gpio_port": "24",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}				
 			},
-			"yellow_warn_light": {
-				"basis" : "led_yellow",
+			"manual_yellow_warn_light": {
+				"basis" : "led_push_button_yellow",
 				"instance" : "1",
-				"gpio_port": "25",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+                   "button_pin" : {
+                   	  "button_gpio_pin" : "4", 
+                   	  "button_mode" : "in",
+                   	  "button_edge" : "both"
+                   },
+                   "led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}
 			},
+			"blue_push_button": {
+				"basis" : "push_button_basic",
+				"instance" : "1",
+				"gpio" : {
+                   "firstPort" : {
+                   	  "port" : "26", 
+                   	  "mode" : "out",
+                   	  "edge" : "both"
+                   }
+				}
+			},	
+		    "mega_example_light": {
+				"basis" : "led_push_button_yellow",
+				"instance" : "1",
+				"gpio" : {
+                   "first_pin" : {
+                   	  "first_gpio_pin" : "4", 
+                   	  "first_mode" : "in",
+                   	  "first_edge" : "both",
+                   	  "options" : {
+                          "debounceTimer:" :  "9",
+                          "activeLow:" : "false"
+                   	  }
+                   },
+                   "second_pin" : {
+                   	  "second_gpio_in" : "14", 
+                   	  "second_mode" : "out"
+                   }
+				}
+			},		
 			"polution_control_pump": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"pump_pin" : {
+                   	  "pump_gpio_pin" : "16", 
+                   	  "pump_mode" : "out"
+                   }
+				}
 			},
 			"irrigation": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"irrigation_pin" : {
+                   	  "irrigation_gpio_pin" : "14", 
+                   	  "irrigation_mode" : "out"
+                   }
+				}
 			},
 			"moisture_sensor": {
 				"basis" : "moisture_sensor",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "moisture_gpio_pin" : "14", 
+                   	  "moisture_mode" : "out"
+                   }
+				}
 			},
 			"town_warning": {
 				"basis" : "active_siren",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"town_meeting": {
 				"basis" : "active_siren",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"meeting_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"tornado_warning": {
 				"basis" : "active_siren",
 				"instance" : "3",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
-			}
+				"gpio" : {
+					"warning_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
+			}			
 		},
 		"permissions": {
 			"player_1_pi": [
@@ -223,67 +325,118 @@
 			"red_warning_light": {
 				"basis" : "led_light",
 				"instance" : "1",
-				"gpio_port": "24",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}				
 			},
-			"yellow_warn_light": {
-				"basis" : "led_yellow",
+			"manual_yellow_warn_light": {
+				"basis" : "led_push_button_yellow",
 				"instance" : "1",
-				"gpio_port": "25",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+                   "button_pin" : {
+                   	  "button_gpio_pin" : "4", 
+                   	  "button_mode" : "in",
+                   	  "button_edge" : "both"
+                   },
+                   "led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}
 			},
+			"blue_push_button": {
+				"basis" : "push_button_basic",
+				"instance" : "1",
+				"gpio" : {
+                   "firstPort" : {
+                   	  "port" : "26", 
+                   	  "mode" : "out",
+                   	  "edge" : "both"
+                   }
+				}
+			},	
+		    "mega_example_light": {
+				"basis" : "led_push_button_yellow",
+				"instance" : "1",
+				"gpio" : {
+                   "first_pin" : {
+                   	  "first_gpio_pin" : "4", 
+                   	  "first_mode" : "in",
+                   	  "first_edge" : "both",
+                   	  "options" : {
+                          "debounceTimer:" :  "9",
+                          "activeLow:" : "false"
+                   	  }
+                   },
+                   "second_pin" : {
+                   	  "second_gpio_in" : "14", 
+                   	  "second_mode" : "out"
+                   }
+				}
+			},		
 			"polution_control_pump": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"pump_pin" : {
+                   	  "pump_gpio_pin" : "16", 
+                   	  "pump_mode" : "out"
+                   }
+				}
 			},
 			"irrigation": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"irrigation_pin" : {
+                   	  "irrigation_gpio_pin" : "14", 
+                   	  "irrigation_mode" : "out"
+                   }
+				}
 			},
 			"moisture_sensor": {
 				"basis" : "moisture_sensor",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "moisture_gpio_pin" : "14", 
+                   	  "moisture_mode" : "out"
+                   }
+				}
 			},
 			"town_warning": {
 				"basis" : "active_siren",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"town_meeting": {
 				"basis" : "active_siren",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"meeting_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"tornado_warning": {
 				"basis" : "active_siren",
 				"instance" : "3",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
-			}
+				"gpio" : {
+					"warning_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
+			}			
 		},
 		"permissions": {
 			"player_1_pi": [
@@ -330,67 +483,118 @@
 			"red_warning_light": {
 				"basis" : "led_light",
 				"instance" : "1",
-				"gpio_port": "24",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}				
 			},
-			"yellow_warn_light": {
-				"basis" : "led_yellow",
+			"manual_yellow_warn_light": {
+				"basis" : "led_push_button_yellow",
 				"instance" : "1",
-				"gpio_port": "25",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+                   "button_pin" : {
+                   	  "button_gpio_pin" : "4", 
+                   	  "button_mode" : "in",
+                   	  "button_edge" : "both"
+                   },
+                   "led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}
 			},
+			"blue_push_button": {
+				"basis" : "push_button_basic",
+				"instance" : "1",
+				"gpio" : {
+                   "firstPort" : {
+                   	  "port" : "26", 
+                   	  "mode" : "out",
+                   	  "edge" : "both"
+                   }
+				}
+			},	
+		    "mega_example_light": {
+				"basis" : "led_push_button_yellow",
+				"instance" : "1",
+				"gpio" : {
+                   "first_pin" : {
+                   	  "first_gpio_pin" : "4", 
+                   	  "first_mode" : "in",
+                   	  "first_edge" : "both",
+                   	  "options" : {
+                          "debounceTimer:" :  "9",
+                          "activeLow:" : "false"
+                   	  }
+                   },
+                   "second_pin" : {
+                   	  "second_gpio_in" : "14", 
+                   	  "second_mode" : "out"
+                   }
+				}
+			},		
 			"polution_control_pump": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"pump_pin" : {
+                   	  "pump_gpio_pin" : "16", 
+                   	  "pump_mode" : "out"
+                   }
+				}
 			},
 			"irrigation": {
 				"basis" : "moisture_5v_pump",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"irrigation_pin" : {
+                   	  "irrigation_gpio_pin" : "14", 
+                   	  "irrigation_mode" : "out"
+                   }
+				}
 			},
 			"moisture_sensor": {
 				"basis" : "moisture_sensor",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "moisture_gpio_pin" : "14", 
+                   	  "moisture_mode" : "out"
+                   }
+				}
 			},
 			"town_warning": {
 				"basis" : "active_siren",
 				"instance" : "1",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"moisture_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"town_meeting": {
 				"basis" : "active_siren",
 				"instance" : "2",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
+				"gpio" : {
+					"meeting_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
 			},
 			"tornado_warning": {
 				"basis" : "active_siren",
 				"instance" : "3",				
-				"gpio_port": "16",
-				"mode": "out",
-				"on": "1",
-				"off": "0"
-			}
+				"gpio" : {
+					"warning_pin" : {
+                   	  "gpio_pin" : "14", 
+                   	  "mode" : "out"
+                   }
+				}
+			}			
 		},
 		"permissions": {
 			"player_1_pi": [
