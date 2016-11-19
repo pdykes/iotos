@@ -137,8 +137,8 @@ debug("Command line option defaults or overrides:" + JSON.stringify(cli_options,
 try {
  var properties = PropertiesReader(cli_options.cfg);
 } catch (e) {
-  console.log("Problem parsing property file:" + e);
-  throw new Error("Corrupted or not found:" + cli_options.cfg);
+  console.log("Problem parsing property file:" + cli_options.cfg + " Error Encountered:" + e);
+  throw new Error("Problem parsing property file:" + cli_options.cfg + " Error Encountered:" + e);
 }
 
 // load the json confiugration file, override port in file if specitify the commandline
@@ -152,9 +152,9 @@ var json = null;
 try {
  json = JSON.parse(fs.readFileSync(resource_mappings_file, 'utf8'));
 } catch (e) {
-  console.log("Problem parsing config gcos.config attribute:" + e);
+  console.log("Problem parsing config [gcos][config] file attribute:" + resource_mappings_file + " Error:" + e);
   // no use continuing
-  return new Error("Corrupted:" + resource_mappings_file);
+  return new Error("Problem parsing config [gcos][config] file attribute:" + resource_mappings_file + " Error:" + e);
 }
 
 if (cli_options.name == null) {   // if a user does not override, must be in config file
@@ -427,8 +427,13 @@ app.post( IT_configuration.gcos_root_uri + control, function (req, res) {
     switch (command) {
       case "init":
         console.log("init...");
-        resource_status[resource_basis][resource_instance].module = require("./ext/" + resource_basis + ".js");
-        json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio);
+        if (resource_status[resource_basis][resource_instance].module == null) {
+         resource_status[resource_basis][resource_instance].module = require("./ext/" + resource_basis + ".js"); 
+         json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio);
+         console.log("Resource Basis " + resource_basis + " for instance " + resource_instance + " configured.");
+        } else {
+          console.log("Resource Basis " + resource_basis + " for instance " + resource_instance + " NOT configured, previosly initialized.");
+        }
       break;
       case "start":
        var data = null;
@@ -449,6 +454,7 @@ app.post( IT_configuration.gcos_root_uri + control, function (req, res) {
       case "unload":
        var data = null;
        json_return_data.response = resource_status[resource_basis][resource_instance].module.unload(data);
+       resource_status[resource_basis][resource_instance].module = null;
       break;
       default:
        console.log("Unknown operation requested: " + command);
