@@ -2,9 +2,10 @@
 	"player_1_pi": {
 		"resources": {
 			"internal_IT" : {
-				"ip"            : "192.168.1.111",
-				"port"          : "8085",
-				"gcos_root_uri" : "/api/v01"
+				"ip"             : "192.168.1.111",
+				"port"           : "8085",
+				"iotos_root_uri" : "/api/v01",
+				"secure"		 : "true"
 		    },
 			"red_warning_light": {
 				"basis" : "led_light",
@@ -14,7 +15,30 @@
                    	  "led_gpio_pin" : "24", 
                    	  "led_mode" : "out"
                    }
-				}				
+				},
+				"custom" : {
+					"alpha" 	: "1",
+					"beta"		: "text_string"
+				}
+			},
+			"red_warn_publish_light": {
+				"basis" : "led_light",
+				"instance" : "2",
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "24", 
+                   	  "led_mode" : "out"
+                   }
+				},
+				"publish_targets" : {
+					"logfile" 	: "./rwpl_log",
+					"restful"  	: "/rwpl",
+					"start"		: "automatic"
+				},
+				"status" : {
+					"start" 		: "automatic",
+					"frequency"		: "5000"
+				}			
 			},
 			"manual_yellow_warn_light": {
 				"basis" : "led_push_button_yellow",
@@ -137,23 +161,31 @@
 				"weathersiren/1"
 			]
 		},
-		"data_routing": {
-			"simple_response": {
-				"status" : "enabled" 
+		"publish_endpoints": {
+			"logfile": {
+				"status" : "enabled",
+				"type"   : "file",
+				"secure" : "false"
 			},
-			"cloud_rest": {
-				"status" : "disabled",
-				"protocol"	: "http",		
-				"root_url" 	: "www.mybluemix.net:8756/gameserver/",
-				"user"  	: "some_user",
-				"password"  : "some_password" 
+			"shell_command": {
+				"type"		: "shell",		
+				"root_dir" 	: "./",
+				"secure" 	: "true"
 			},
-			"cloud_streaming": {
-				"status" : "disabled", 
-				"protocol"	: "websockets",		
-				"root_url" 	: "www.mybluemix.net:8757/gameserver/",
-				"user"  	: "some_user",
-				"password"  : "some_password" 
+			"mqtt": {
+				"type"   : "mqtt",
+				"root_url" 	: "www.bluemix.com:8756/gameserver_mqtt",
+				"secure" : "true"
+			},
+			"restful": {
+				"type"		: "restful",
+				"root_url" 	: "192.168.1.14:8756/gameserver",
+				"secure" 	: "false"
+			},
+			"websockets": {
+				"type"		: "websockets",		
+				"root_url" 	: "www.mybluemix.net:8757/gameserver",
+				"secure" 	: "true"
 			}
 		}
 	},
@@ -162,7 +194,7 @@
 			"internal_IT" : {
 				"ip"            : "192.168.1.111",
 				"port"          : "8080",
-				"gcos_root_uri" : "/api/v01"
+				"iotos_root_uri" : "/api/v01"
 			},
 			"red_warning_light": {
 				"basis" : "led_light",
@@ -320,7 +352,7 @@
 			"internal_IT" : {
 				"ip"            : "192.168.1.111",
 				"port"          : "8081",
-				"gcos_root_uri" : "/api/v01"
+				"iotos_root_uri" : "/api/v01"
 			},
 			"red_warning_light": {
 				"basis" : "led_light",
@@ -476,9 +508,9 @@
 	"player_4_pi": {
 		"resources": {
 			"internal_IT" : {
-				"ip"            : "192.168.1.110",
-				"port"          : "8081",
-				"gcos_root_uri" : "/api/v01"
+				"ip"             : "192.168.1.110",
+				"port"           : "8081",
+				"iotos_root_uri" : "/api/v01"
 			},
 			"red_warning_light": {
 				"basis" : "led_light",
