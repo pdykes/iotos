@@ -201,6 +201,7 @@ iotos Utilize "miotos" or "nodejs miotos" to manage via command line
 iotos Web access at: http://192.168.1.111:8085/api/v01/welcome
 
 iotos Welcome!
+
 ```
 
    - Congratulations, you now are able to issue management commnads.
@@ -234,11 +235,13 @@ Install and Setup iotos http reporting to another http server
     - Change the project_dir\iotos\configuration.json file:
 
 ```
+
         "restful": {
           "type"    : "restful",
           "root_url"  : "192.168.1.14:8756/gameserver",
           "secure"  : "false"
          },
+
 ```         
 
        Substitute 192.168.1.14 to your ip address of the server event_emitter_web_app.js
@@ -254,10 +257,12 @@ Install and Setup iotos http reporting to another http server
           should result in data being forwarded to the event_emitter_web_app.js example
 
 ```          
+
          cd projects\iotos
          nodejs manage.js -t player_1_pi -r red_warn_publish_light -d init
          nodejs manage.js -t player_1_pi -r red_warn_publish_light -d start
          nodejs manage.js -t player_1_pi -r red_warn_publish_light -d toggle
+
 ```
          
 Command line function
@@ -272,6 +277,7 @@ node manage.js -t player_1_pi -d init -r red_warning_light
 - Output
 
 ```
+
 Management Command [os:linux arch:arm]
 iotos Version v0.0.2 11/10/2016 Target host: player_1_pi
 iotos Initializing Resource Mapping: configuration.json
@@ -295,6 +301,7 @@ iotos CLI Init request operation initiated to http://192.168.1.111:8085/api/v01/
     },
     "config_message": "Resource red_warning_light Resource Basis led_light for instance 1 configured."
 }
+
 ```
 
 
@@ -305,6 +312,7 @@ node manage.js -t player_1_pi -d start -r red_warning_light
 -----------------------------------------------------------
 
 ```
+
 Management Command [os:linux arch:arm]
 iotos Version v0.0.2 11/10/2016 Target host: player_1_pi
 iotos Initializing Resource Mapping: configuration.json
@@ -325,6 +333,7 @@ iotos CLI Start request operation initiated to http://192.168.1.111:8085/api/v01
         "return_code": "200"
     }
 }
+
 ```
 
 
@@ -335,6 +344,7 @@ node manage.js -t player_1_pi -d toggle -r red_warning_light
 ------------------------------------------------------------
 
 ```
+
 Management Command [os:linux arch:arm]
 iotos Version v0.0.2 11/10/2016 Target host: player_1_pi
 iotos Initializing Resource Mapping: configuration.json
@@ -355,6 +365,7 @@ iotos CLI Toggle request operation initiated to http://192.168.1.111:8085/api/v0
         "return_code": "200"
     }
 }
+
 ```
 
 Manage - Help
@@ -364,6 +375,7 @@ node manage.js --help
 ---------------------
 
 ```
+
 Management Command [os:linux arch:arm]
 Command options:
  --verbose/-v    - Verbose Mode at startup
@@ -375,6 +387,7 @@ Command options:
  --help/-h       - Help
 
  * required
+ 
  ```
 
 
