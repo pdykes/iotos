@@ -168,8 +168,13 @@ iotos Wecome!
          
 - Command line function
 
-C:\data\projects\iot\school\gc\deviceteam\iotos\mvp1>node manage.js -d init -r red_warning_light
+Manage - Initialize
+-------------------
 
+node manage.js -d init -r red_warning_light
+-------------------------------------------
+
+Output:
 
 Management Command [os:win32 arch:x64]
 iotos Version v0.0.2 11/10/2016 Target host: player_1_pi
@@ -178,7 +183,11 @@ iotos Port assigned from config file: 8085
 iotos IP Address assigned from config file: 192.168.1.111
 iotos CLI Control Init Operation Initiated to http://192.168.1.111:8085/api/v01/ctrl
 
-C:\data\projects\iot\school\gc\deviceteam\iotos\mvp1>node manage.js -d start -r red_warning_light
+Manage - Start
+--------------
+
+node manage.js -d start -r red_warning_light
+--------------------------------------------
 
 
 Management Command [os:win32 arch:x64]
