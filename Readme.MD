@@ -22,9 +22,9 @@ Node Setup  (this only needs to be done once!)
 Node is the base programming language for this solution, and you must be able to run "node -v", 
 and verify you have version 6.9 or higher.
 
-a) See the bringup.txt if your pi systems are not on the pixel release on the pis, suggested.
+ - See the bringup.txt if your pi systems are not on the pixel release on the pis, suggested.
 
-b) If on linux and have node 10.29 (node -v), need to upgrade, we can talk in class how to upgrade,
+ - If on linux and have node 10.29 (node -v), need to upgrade, we can talk in class how to upgrade,
    net:
 
 ```
@@ -33,29 +33,28 @@ b) If on linux and have node 10.29 (node -v), need to upgrade, we can talk in cl
    sudo apt-get remove nodejs
 ```   
 
-c) Pixel and arm7 or later (Latest Pi B)
+ - Pixel and arm7 or later (Latest Pi B)
 
-   Visit this nodesource:  https://github.com/nodesource/distributions
+    - Visit this nodesource:  https://github.com/nodesource/distributions
+    - Select the Debian (Pixel is a Debian version) commands.  
 
-   Select the Debian (Pixel is a Debian version) commands.  
+    - Then when done with nodejs 6.9 or 7.0 or later install, upgrade npm
 
-   Then when done with nodejs 6.9 or 7.0 or later install, upgrade npm
+       - nodejs -v (or node -v)   [if not in path, fix that first]
+       - npm install npm
 
-   i) nodejs -v (or node -v)   [if not in path, fix that first]
-   ii) npm install npm
+ - arm6 (still use Pixel), the following is required
 
- d) arm6 (still use Pixel), the following is required
+   - (need to add to path manually)
 
-    (need to add to path manually)
-
-    i) download latest nodejs (6.91 at the time of this writing) from nodejs.org
-    ii) cd /usr/local
-    iii) sudo mkdir nodeX.YZ
-    iv) cd nodeX.YZ
-    v) sudo tar -xvf <image you downloaded>
-    vi) cd (go to home directory where you will run node from)
-    vii) Update PATH to reference to /usr/local/nodeX.YZ/bin to .bashrc and .profile
-    viii) Debug using node -v or nodejs -v, if does not work, make it so...
+   - download latest nodejs (6.91 at the time of this writing) from nodejs.org
+   - cd /usr/local
+   - sudo mkdir nodeX.YZ
+   - cd nodeX.YZ
+   - sudo tar -xvf <image you downloaded>
+   - cd (go to home directory where you will run node from)
+   - Update PATH to reference to /usr/local/nodeX.YZ/bin to .bashrc and .profile
+   - Debug using node -v or nodejs -v, if does not work, make it so...
 
 
 
@@ -72,9 +71,9 @@ Double Check Dependencies (if these do not work, repeat steps above)
 
    - Open new a shell window (new is important, your path will be updated to find new tools!)
        Issue the commands to see if tools installed ok (your "toolchain")
-         node -v  (getting 6.91 or higher is good)  [if not found, reinstall node]
-         npm -v (getting 3.+ is good)  [intalled with node]
-         git --v (yes, two dashes, should 2.7.x or higher) [if not found, reinstall git]
+      - node -v  (getting 6.91 or higher is good)  [if not found, reinstall node]
+      - npm -v (getting 3.+ is good)  [intalled with node]
+      - git --v (yes, two dashes, should 2.7.x or higher) [if not found, reinstall git]
 
 Key Concpets
 ------------
@@ -249,11 +248,11 @@ Install and Setup iotos http reporting to another http server
 
   - To test this out using the sample"
     - You can use the same LED Circuit we use for test
-    - i) Start the iotos server on pi with led circuit
+    - Start the iotos server on pi with led circuit
          - cd projects\iotos
          - (if have not installed prereqs - issue a "npm install", do only once)
          - nodejs iotos.js  (server should start)
-    - ii) In a second window on PI or on a windows box, each of the manage commands
+    - In a second window on PI or on a windows box, each of the manage commands
           should result in data being forwarded to the event_emitter_web_app.js example
 
 ```          
@@ -301,6 +300,7 @@ iotos CLI Init request operation initiated to http://192.168.1.111:8085/api/v01/
     },
     "config_message": "Resource red_warning_light Resource Basis led_light for instance 1 configured."
 }
+
 
 ```
 
@@ -387,7 +387,7 @@ Command options:
  --help/-h       - Help
 
  * required
- 
+
  ```
 
 
