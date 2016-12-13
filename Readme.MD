@@ -27,9 +27,11 @@ a) See the bringup.txt if your pi systems are not on the pixel release on the pi
 b) If on linux and have node 10.29 (node -v), need to upgrade, we can talk in class how to upgrade,
    net:
 
+'''
    sudo apt-get remove nodered
    sudo apt-get remove npm
    sudo apt-get remove nodejs
+'''   
 
 c) Pixel and arm7 or later (Latest Pi B)
 
@@ -115,6 +117,7 @@ Install iotos
           - Use notepad or another editor, edit the package.json file and remove the single "onoff"
             line.
 
+'''
               "dependencies": {
                 "body-parser": "^1.15.2",
                 "cfenv": "^1.0.3",
@@ -126,8 +129,7 @@ Install iotos
                 "onoff": "^1.1.1",                    <- remove this line, save the file (on winows only)
                 "os": "^0.1.1",
                 "properties-reader": "0.0.15"
- 
-
+'''                
 
       - npm install  (npm wil install all the dependencies
 
@@ -164,6 +166,8 @@ Server Start Example (do this on PI)
   - use ifconfig (linux), and find the ip address of the unit (lan, wireless lan, etc..)
   - edit configuration.json
      - Update this section for player_1_pi (assume one pi is called player_1_pi for this readme)
+
+'''     
          {
           "player_1_pi": {
              "resources": {
@@ -172,6 +176,7 @@ Server Start Example (do this on PI)
                     "port"           : "8085",
                     "iotos_root_uri" : "/api/v01",
                     "secure"     : "true"
+'''                    
 
      - save the file...
   - npm install npm    (just make sure have latest npm)
@@ -179,6 +184,7 @@ Server Start Example (do this on PI)
   - node iotos.js   (may need to use "nodejs" vs. "node")
 
 
+'''
 prompt:~/projects/iotos $ nodejs iotos.js
 iotos Bootstrap [os:linux arch:arm]
 iotos Version v0.0.2 11/10/2016 Instance: player_1_pi
@@ -194,6 +200,7 @@ iotos Utilize "miotos" or "nodejs miotos" to manage via command line
 iotos Web access at: http://192.168.1.111:8085/api/v01/welcome
 
 iotos Welcome!
+'''
 
    - Congratulations, you now are able to issue management commnads.
 
@@ -225,11 +232,13 @@ Install and Setup iotos http reporting to another http server
     - Note the ip address of where this test endpoint is running (ipconfig, ifconfig)
     - Change the project_dir\iotos\configuration.json file:
 
+'''
         "restful": {
           "type"    : "restful",
           "root_url"  : "192.168.1.14:8756/gameserver",
           "secure"  : "false"
          },
+'''         
 
        Substitute 192.168.1.14 to your ip address of the server event_emitter_web_app.js
        is running on.,
@@ -242,10 +251,13 @@ Install and Setup iotos http reporting to another http server
          - nodejs iotos.js  (server should start)
     - ii) In a second window on PI or on a windows box, each of the manage commands
           should result in data being forwarded to the event_emitter_web_app.js example
-         - cd projects\iotos
-         - nodejs manage.js -t player_1_pi -r red_warn_publish_light -d init
-         - nodejs manage.js -t player_1_pi -r red_warn_publish_light -d start
-         - nodejs manage.js -t player_1_pi -r red_warn_publish_light -d toggle
+
+'''          
+         cd projects\iotos
+         nodejs manage.js -t player_1_pi -r red_warn_publish_light -d init
+         nodejs manage.js -t player_1_pi -r red_warn_publish_light -d start
+         nodejs manage.js -t player_1_pi -r red_warn_publish_light -d toggle
+'''
          
 Command line function
 ---------------------
@@ -258,6 +270,7 @@ node manage.js -t player_1_pi -d init -r red_warning_light
 
 - Output
 
+'''
 Management Command [os:linux arch:arm]
 iotos Version v0.0.2 11/10/2016 Target host: player_1_pi
 iotos Initializing Resource Mapping: configuration.json
@@ -281,6 +294,7 @@ iotos CLI Init request operation initiated to http://192.168.1.111:8085/api/v01/
     },
     "config_message": "Resource red_warning_light Resource Basis led_light for instance 1 configured."
 }
+'''
 
 
 Manage - Start
