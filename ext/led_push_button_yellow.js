@@ -54,21 +54,21 @@ var gpio_led_mode = null;
 //                 The core GPIO command is provided, and return data. The data can be augmented
 //                 as needed.
 //
-function init(gpio_object) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g could enable several
+function init(req) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g could enable several
 
  // Dump gpio object for example
 
-  debug("led_light sample gpio object" + JSON.stringify(gpio_object));
+  debug("led_push_button_yellow button/light sample gpio object" + JSON.stringify(req));
 
  // Assign the information needed for on/off api from the gpio object
 
   // user defines the data structure and variable names in json confiuguation file (see gcons.ini)
-  gpio_led_pin  = gpio_object.led_pin.led_gpio_pin;
-  gpio_led_mode = gpio_object.led_pin.led_mode;
+  gpio_led_pin  = req.gpio_basis.led_pin.led_gpio_pin;
+  gpio_led_mode = req.gpio_basis.led_pin.led_mode;
 
-  gpio_button_pin  = gpio_object.button_pin.button_gpio_pin;
-  gpio_button_mode = gpio_object.button_pin.button_mode;
-  gpio_button_opt  = gpio_object.button_pin.button_edge;
+  gpio_button_pin  = req.gpio_basis.button_pin.button_gpio_pin;
+  gpio_button_mode = req.gpio_basis.button_pin.button_mode;
+  gpio_button_opt  = req.gpio_basis.button_pin.button_edge;
 
   debug("LED Module [" + module_name + "] init [Mode: " + gpio_led_mode + " Pin: " + gpio_led_pin + "]");
   debug("Button Module [" + module_name + "] init [Mode: " + gpio_button_mode + " Pin: " + gpio_button_pin + " Option: " + gpio_button_opt +"]");
@@ -95,7 +95,7 @@ function init(gpio_object) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g c
  return(data_response);
 } 
 
-function start(data) {
+function start(req) {
 
  debug("start started");
 
@@ -131,7 +131,7 @@ function start(data) {
  return(data_response);
 }
 
-function status(data) {
+function status(req) {
 
  debug("status started")
 
@@ -152,7 +152,7 @@ function status(data) {
  return(data_response)
 }
 
-function stop(data) {
+function stop(req) {
 
  debug("stop started")
 
@@ -170,7 +170,7 @@ function stop(data) {
  return(data_response)
 }
 
-function toggle(data) {
+function toggle(req) {
 
 
  debug("toggle started")
@@ -189,7 +189,7 @@ function toggle(data) {
   return(data_response)
 }
 
-function unload(data) {
+function unload(req) {
 
  debug("unload started")
 

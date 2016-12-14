@@ -59,7 +59,7 @@ var publish_mqtt          = "mqtt";
 var publish_restful       = "restful";
 var publish_websockets    = "websockets";
 
-var internal_IT             = "internal_IT";
+var internal_IT           = "internal_IT";
 
 // iotos os build version
 
@@ -190,24 +190,6 @@ console.log("iotos Initializing Resource Mapping: " + resource_mappings_file);
 // This section established the lookup cache that correlates a given
 // incoming email subject to the subqueue clients will subscribe to.
 
-/* moved out..
- took out 11/15 watch in case problem
-var fs = require('fs');
-
-try {
- var json = JSON.parse(fs.readFileSync(resource_mappings_file, 'utf8'));
-} catch (e) {
-  console.log("iotos Problem parsing config iotos.config attribute:" + e);
-  throw new Error("Corrupted:" + resource_mappings_file);
-}
-
-// Setup runtime caches which offer various functions
-//  - Higher performance lookup vectors for each query
-//  - Direct access arrays (with keys from above) to access basis circuits
-//  - Direct access arrays (with keys from above) to access URL circuits
-
-*/
-
 var SortedArrayMap = require("collections/sorted-array-map");
 
 var resource_cache         = SortedArrayMap([]);
@@ -222,7 +204,6 @@ var instance_name_found = false;
 
 var resource_lookup = [];
 var resource_status = [];
-
 
 
  debug("Creating Resource Mappings from [" + resource_mappings_file + "]");
@@ -437,11 +418,10 @@ app.post( IT_configuration.iotos_root_uri + manage_iotos , function (req, res) {
           // json_return_data["state_test"] = "subdata";
           // json_return_data["state"] = return_value;
           json_return_data.response = {
-              "module"      : "main code",
-              "method"      : "list",
+              "method"      : "listactive",
               "status"      : "OK",
               "summary"     : return_value,  
-              "return_code" : "200"
+              "return_code" : 200
             };
       break;
       default:
@@ -480,11 +460,38 @@ app.post( IT_configuration.iotos_root_uri + control, function (req, res) {
                                           control,
                      };
 
-  // resource is the crtical attribute, lookup all other data from configuration for this iteration   
+  // resource is the crtical attribute, lookup all other data from configuration for this iteration 
+  debug("iotos processing control request");
+
   var client_resource = req.body.resource;
   console.log("Client requested resource [" + client_resource + "]");
 
   var command = req.body.command;
+
+  var method_data_parameter = [];
+
+  var verified_json_data = null;
+  try {
+    if (req.body.hasOwnProperty('json_data') &&    // check incoming api call, never know
+        req.body.json_data.hasOwnProperty('content') &&
+        req.body.json_data.content != null) {
+      debug("Parsing client command line json req.body.json_data: ", req.body.json_data);
+      verified_json_data = req.body.json_data.content;   // PERRY TODO This is trusting the client, but JSON.parse() caused issues, more work here
+      json_return_data.json_data = verified_json_data;
+      method_data_parameter.json_data = verified_json_data;
+      debug("Data for extension, method_data_parameter value: ", method_data_parameter);
+    } else {
+       debug("command line json req.body.json_data missing, setting return value to null ", req.body.json_data);
+       json_return_data.json_data = null;
+       method_data_parameter.json_data = null; 
+    }
+  } catch (err) {
+     json_return_data.json_data_err = err.message;
+     json_return_data.json_data = null;
+     method_data_parameter.json_data = null;
+  }
+
+  debug("Post Command Line Parsing, method_data_parameter: ", method_data_parameter);
 
   // Acquire resource object, anchor to other cache updates
   var resource_object = resource_cache.get(client_resource);
@@ -504,7 +511,9 @@ app.post( IT_configuration.iotos_root_uri + control, function (req, res) {
   var resource_basis_gpio = resource_object.gpio;
   var resource_basis_publish_targets = resource_object.publish_targets;
 
-  console.log("  => First touch "  + JSON.stringify(resource_status[resource_basis][resource_instance]));
+  method_data_parameter.gpio_basis = resource_basis_gpio;  // pass data to methods
+
+  debug("  => First touch "  + JSON.stringify(resource_status[resource_basis][resource_instance]));
 
   if ((resource_basis == null) || (resource_instance == null)) {
       console.log("Error: Client requested resource [" + client_resource + "] and encountered internal error! Validate Configuration.");
@@ -566,9 +575,11 @@ app.post( IT_configuration.iotos_root_uri + control, function (req, res) {
           json_return_data.init_message = user_init_message;
 
           try {
-            json_return_data.response = resource_status[resource_basis][resource_instance].module.init(resource_basis_gpio);
+            var msg_text = "Resource " + client_resource + " Resource Basis " + resource_basis + " for instance " + resource_instance; 
+            debug("Pre-entry of " + msg_text + " init method, paramter data: ", method_data_parameter);
+            json_return_data.response = resource_status[resource_basis][resource_instance].module.init(method_data_parameter);
             configured_successfully = true;
-            user_config_message = "Resource " + client_resource + " Resource Basis " + resource_basis + " for instance " + resource_instance + " configured.";
+            user_config_message = msg_text + " configured.";
           } catch (err) {
             var user_response = {
                  "init_method_result" : "Error: " + err.message
@@ -655,34 +666,37 @@ app.post( IT_configuration.iotos_root_uri + control, function (req, res) {
         }        
       break;
       case "start":
-      var data = null;
-       debug("++++ end of init handler resource object json: " + JSON.stringify(resource_object,4, null));
-       json_return_data.response = resource_status[resource_basis][resource_instance].module.start(data);
+       var data = null;
+       var msg_text = "Resource " + client_resource + " Resource Basis " + resource_basis + " for instance " + resource_instance; 
+       debug("Pre-entry of " + msg_text + " start method, paramter data: ", method_data_parameter);       
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.start(method_data_parameter);
        provide_emitter_response(client_resource, resource_object, json_return_data);
       break;
       case "status":
        var data = null;
-       json_return_data.response = resource_status[resource_basis][resource_instance].module.status(data);
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.status(method_data_parameter);
        provide_emitter_response(client_resource, resource_object, json_return_data);
       break;
       case "stop":
        var data = null;
-       json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(data);
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(method_data_parameter);
        provide_emitter_response(client_resource, resource_object, json_return_data);
       break;
       case "toggle":
        var data = null;
-       json_return_data.response = resource_status[resource_basis][resource_instance].module.toggle(data);
+       var msg_text = "Resource " + client_resource + " Resource Basis " + resource_basis + " for instance " + resource_instance; 
+       debug("Pre-entry of " + msg_text + " toggle method, paramter data: ", method_data_parameter);         
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.toggle(method_data_parameter);
        provide_emitter_response(client_resource, resource_object, json_return_data);
       break;        
       case "unload":
        var data = null;
        // force stop
-       json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(data);
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(method_data_parameter);
 
        data = null;
        // drive unload
-       json_return_data.response = resource_status[resource_basis][resource_instance].module.unload(data);
+       json_return_data.response = resource_status[resource_basis][resource_instance].module.unload(method_data_parameter);
 
        // provide the response, then need to delete the emitters
        provide_emitter_response(client_resource, resource_object, json_return_data);
