@@ -89,7 +89,7 @@ function init(req) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g could ena
  	"module"      : module_name,
  	"method"      : "init",
 	"status"      : "OK", 	
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  return(data_response);
@@ -122,7 +122,7 @@ function start(req) {
  	"module"      : module_name,
  	"method"      : "start",
  	"status"      : "tbd",	
- 	"return_code" : "200"
+ 	"return_code" : 200
   };
 
  
@@ -144,7 +144,7 @@ function status(req) {
  	"status"      : "tbd",
  	"pin_led_read"      : resultl,
   "pin_button_read"   : resultb,
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("status complete")
@@ -162,7 +162,7 @@ function stop(req) {
  	"module"      : module_name,
  	"method"      : "stop",
  	"status"      : "tbd",
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("stop complete")
@@ -181,7 +181,7 @@ function toggle(req) {
  	"module"      : module_name,
  	"method"      : "toggle",
  	"status"      : "tbd",
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("toggle complete")
@@ -200,7 +200,7 @@ function unload(req) {
  	"module"      : module_name,
  	"method"      : "unload",
  	"status"      : "tbd", 	
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("unload complete")	
