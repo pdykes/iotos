@@ -49,17 +49,17 @@ var gpio_mode = 'out';
 //                 The core GPIO command is provided, and return data. The data can be augmented
 //                 as needed.
 //
-function init(gpio_object) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g could enable several
+function init(req) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g could enable several
 
  // Dump gpio object for example
 
-  debug("led_light sample gpio object" + JSON.stringify(gpio_object));
+  debug("led_light sample gpio object", JSON.stringify(req));
 
  // Assign the information needed for on/off api from the gpio object
 
   // user defines the data structure and variable names in json confiuguation file (see gcons.ini)
-  gpio_pin  = gpio_object.led_pin.led_gpio_pin;
-  gpio_mode = gpio_object.led_pin.led_mode;
+  gpio_pin  = req.gpio_basis.led_pin.led_gpio_pin;
+  gpio_mode = req.gpio_basis.led_pin.led_mode;
 
   debug("Module [" + module_name + "] init [Mode: " + gpio_mode + " Pin: " + gpio_pin + "]");
 
@@ -78,15 +78,15 @@ function init(gpio_object) {   // TODO PERRY  Need to handle > 1 GPIO pin, e.g c
  	"module"      : module_name,
  	"method"      : "init",
 	"status"      : "OK", 	
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  return(data_response);
 } 
 
-function start(data) {
+function start(req) {
 
- debug("start started");
+ debug("start started", req);
 
  var result = led.writeSync(1);
 
@@ -94,7 +94,7 @@ function start(data) {
  	"module"      : module_name,
  	"method"      : "start",
  	"status"      : "tbd",	
- 	"return_code" : "200"
+ 	"return_code" : 200
   };
 
  
@@ -103,9 +103,9 @@ function start(data) {
  return(data_response);
 }
 
-function status(data) {
+function status(req) {
 
- debug("status started")
+ debug("status started", req)
 
  var result = led.readSync();
 
@@ -114,7 +114,7 @@ function status(data) {
  	"method"      : "status",
  	"status"      : "tbd",
  	"pin_read"    : led.readSync(),
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("status complete")
@@ -122,9 +122,9 @@ function status(data) {
  return(data_response)
 }
 
-function stop(data) {
+function stop(req) {
 
- debug("stop started")
+ debug("stop started", req)
 
  var result = led.writeSync(0);
 
@@ -132,7 +132,7 @@ function stop(data) {
  	"module"      : module_name,
  	"method"      : "stop",
  	"status"      : "tbd",
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("stop complete")
@@ -140,10 +140,10 @@ function stop(data) {
  return(data_response)
 }
 
-function toggle(data) {
+function toggle(req) {
 
 
- debug("toggle started")
+ debug("toggle started", req)
 
  var result = led.writeSync(led.readSync() ^ 1);
 
@@ -151,7 +151,7 @@ function toggle(data) {
  	"module"      : module_name,
  	"method"      : "toggle",
  	"status"      : "tbd",
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("toggle complete")
@@ -159,9 +159,9 @@ function toggle(data) {
   return(data_response)
 }
 
-function unload(data) {
+function unload(req) {
 
- debug("unload started")
+ debug("unload started", req);
 
  var result = led.unexport();
 
@@ -169,7 +169,7 @@ function unload(data) {
  	"module"      : module_name,
  	"method"      : "unload",
  	"status"      : "tbd", 	
- 	"return_code" : "200"
+ 	"return_code" : 200
  };
 
  debug("unload complete")	

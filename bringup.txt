@@ -378,4 +378,24 @@ nodejs manage.js -c "target name"
                  -o "init" or "start" or "status" or "stop" or "toggle" or "unload"
 
                  
+---------------------------------------------------------------------------------
 
+When need to add prompting for passwords, take a look at node "prompt"
+
+---------------------------------------------------------------------------------
+
+Passing Data to Methods
+
+Concept:  allow user to pass in dynamic data from command line to feed their
+algorithms.  This could be useful for setting warning levels dynamically and 
+avoiding deploys, etc... that plague IT.  They can use devops to drive scripts
+that can set data as appropriate (they can use config file for more static
+values if they wish.)
+
+a) wanted to add -j/--json_data '{ "first" : 1, second: "two" }'
+
+Using this for a while, notice that the second parameter does not have a string.
+This is not valid JSON.  Initial processing did not catch an exception, need to
+gracefully handle as pretty basic mistake.
+
+b) Testing with:  '{ "first" : 1, "second": "two" }'

@@ -45,8 +45,6 @@ and verify you have version 6.9 or higher.
 
  - arm6 (still use Pixel), the following is required
 
-   - (need to add to path manually)
-
    - download latest nodejs (6.91 at the time of this writing) from nodejs.org
    - cd /usr/local
    - sudo mkdir nodeX.YZ

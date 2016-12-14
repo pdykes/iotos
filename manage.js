@@ -186,6 +186,7 @@ var instance_ip   = null;     // value set via config file, set by ini
 
 var command_resource  = null;
 var command_directive = null;
+var command_data_json = null;
 
 function help(err) {
   console.log("Command options:");
@@ -195,6 +196,7 @@ function help(err) {
   console.log(" --port/-p       - Target port override");  
   console.log(" --targethost/-t - Target host override");
   console.log(" --configFile/-f - Configuration file"); 
+  console.log(" --json_data/-j  - JSON data");
   console.log(" --help/-h       - Help"); 
   console.log("");
   console.log(" * required");
@@ -219,6 +221,7 @@ const cli_optionDefinitions = [
   { name: 'targethost',   type: String,  multiple: false, alias: 't', defaultValue: target_host },
   { name: 'port',         type: Number,  multiple: false, alias: 'p', defaultValue: instance_port },
   { name: 'configFile',   type: String,  multiple: false, alias: 'f', defaultValue: cfg_file },
+  { name: 'json_data',    type: String,  multiple: false, alias: 'j', defaultValue: null },  
   { name: 'help',         type: Boolean, multiple: false, alias: 'h' }
 ]
 
@@ -246,6 +249,8 @@ if (command_directive == null) {
 } else {
   debug ("Requested directive: " + command_directive);
 }
+
+
 
 var help_option = cli_options.help;
 
@@ -285,8 +290,24 @@ try {
 if (cli_options.targethost == null) {   // if a user does not override, must be in config file
   target_host = properties.get('iotos.name');   // default
 } else {
-  target_host = cli_options.targethost  // if set, overrides any configuration
+  target_host = cli_options.targethost;  // if set, overrides any configuration
 }
+
+var verified_json_data = null;
+var verified_json_data_fname = cli_options.json_data;
+
+debug("verified_json_data_fname command line value: " + verified_json_data_fname);
+
+if (verified_json_data_fname !== null) {
+  try {
+   verified_json_data = JSON.parse(fs.readFileSync(verified_json_data_fname, 'utf8'));
+   debug(verified_json_data_fname + " formatted json: ", JSON.stringify(verified_json_data,null,4));
+  } catch (e) {
+   console.log("Problem parsing json_data file:" + verified_json_data_fname + " Error: " + e.message);
+   throw new Error("Malformed or not found:" + verified_json_data_fname);
+  }
+}
+
 
 debug("target_host: " + target_host);
 
@@ -326,20 +347,14 @@ debug("Target Host Value: " + instance_name);
 var resource_lookup = [];
 var resource_status = [];
 
-/* tried to refactor a bit, need to consider this later due to the issues encountered
-var cfg_json_parse = require("./parsecfg.js");
-
-cfg_json_parse.iotosf();
-*/
+debug("processing configuration");
 
 process_configuration();
-
 
 if (!instance_name_found) {
   console.log("iotos Instance Name [" + target_host + "] not configured, must be added to configuration file");
   return new Error("iotos Instance Name [" + target_host + "] not configured, must be added to configuration file");
 }
-
 
 // if user sets these, he is overiding the configuration file, which is ok for *this* instance
 // Others cannot be be overrideen that are referred to.  This allows running more than once instnace
@@ -379,35 +394,45 @@ var client = new Client();
 
 var iot_target = "http://" + instance_ip + ":" + instance_port + url_root;
 var iot_cmd    = "";
+
+var control_request = false;
+var manage_request = false;
  
 switch (command_directive) {
    case "init":
      iot_target = iot_target + uri_control;
      iot_cmd = "Init";
+     control_request = true;
     break;
    case "start":
      iot_target = iot_target + uri_control;
      iot_cmd = "Start";
+     control_request = true;     
     break;
    case "status":
      iot_target = iot_target + uri_control;
      iot_cmd = "Status";
+     control_request = true;     
     break;
    case "stop":
      iot_target = iot_target + uri_control;
      iot_cmd = "Stop";
+     control_request = true;     
     break;
    case "toggle":
      iot_target = iot_target + uri_control;
      iot_cmd = "Toggle";
+     control_request = true;     
    break;        
   case "unload":
      iot_target = iot_target + uri_control;
      iot_cmd = "Unload";
+     control_request = true;     
   break;
   case "listactive":
      iot_target = iot_target + uri_manage;
      iot_cmd = "ListActive";
+     manage_request = true;     
   break;  
  default:
    console.log("iotos unknown directive requested " + directive + ", exiting...");
@@ -417,7 +442,8 @@ switch (command_directive) {
 var user_command = "iotos CLI " + iot_cmd + " request operation initiated to ";
 
 
-console.log(user_command + iot_target);
+debug("Request ", user_command + iot_target);
+console.log("Request ", user_command + iot_target);
 
 // set content-type header and data as json in args parameter 
 var args = {
@@ -429,6 +455,18 @@ var args = {
       headers: { "Content-Type": "application/json" }
     // headers: { "Content-Type": "application/x-www-form-urlencoded" }
 };
+
+debug("Arguments relayed to server (pre json data): ", args);
+
+if (control_request === true) {
+ args.data.json_data = {
+    "content" : verified_json_data
+  }
+ debug("Arguments relayed to server: ", args);
+}
+
+debug("IoT Target URL: ", iot_target);
+debug("Arguments relayed to server: ", args);
  
 client.post(iot_target, args, function (data, response) {
     // parsed response body as js object 
