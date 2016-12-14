@@ -40,6 +40,21 @@
 					"frequency"		: "5000"
 				}			
 			},
+			"red_interval_light": {
+				"basis" : "led_light_interval",
+				"instance" : "1",
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "24", 
+                   	  "led_mode" : "out",
+                   	  "led_interval" :  2000
+                   }
+				},
+				"custom" : {
+					"alpha" 	: "1",
+					"beta"		: "text_string"
+				}
+			},			
 			"manual_yellow_warn_light": {
 				"basis" : "led_push_button_yellow",
 				"instance" : "1",
