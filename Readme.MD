@@ -1,5 +1,8 @@
 Readme.MD
 
+Note:  PDF above gives a more conceptual overview.  For some reason in github, Chrome has
+       an issue with PDFs, Firefox seems to work fine.  Just fyi.
+
 Internet of Things Operating System (iotos).  This was formally called GCOS.
 ----------------------------------------------------------------------------
 
