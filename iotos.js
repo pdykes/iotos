@@ -68,7 +68,7 @@ var internal_IT           = "internal_IT";
 
 // Enabled help, in memory caches, command lines for ctrl and manage. Also
 // added URI handling, extension by team members and access controls.
-var iotos_version            = "v0.0.2 11/10/2016";
+var iotos_version            = "v0.0.4 (mvp4) 01/02/2017";
 
 var os = require('os');
 var os_platform = os.platform();
@@ -551,6 +551,7 @@ app.post( IT_configuration.iotos_root_uri + control, function (req, res) {
     // disable for now TODO PERRY resource_status[resource_basis][resource_instance].busy = basis_busy;            // lock resoruce basis
     switch (command) {
       case "init":
+      case "initialize" :  // very useful for voice, as init not valid word
 
         debug("Starting init operation: Resource " + client_resource + " Resource Basis " + resource_basis + " for instance " + resource_instance);
         if (resource_status[resource_basis][resource_instance].active === false) {
@@ -678,6 +679,7 @@ app.post( IT_configuration.iotos_root_uri + control, function (req, res) {
        provide_emitter_response(client_resource, resource_object, json_return_data);
       break;
       case "stop":
+      case "suspend" :  // very useful for voice, as init not valid word
        var data = null;
        json_return_data.response = resource_status[resource_basis][resource_instance].module.stop(method_data_parameter);
        provide_emitter_response(client_resource, resource_object, json_return_data);

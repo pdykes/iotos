@@ -1,0 +1,17 @@
+{
+  "name": "control_resource",
+  "version": "0.0.1",
+  "description": "AWS Lambda hosting funciton for the Control Resource Alexa Skill.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pdykes@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "alexa-sdk": "^1.0.6",
+    "aws-iot-device-sdk": "^1.0.14",
+    "debug": "^2.4.5",
+    "properties-reader": "0.0.15"
+  }
+}

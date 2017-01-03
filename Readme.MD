@@ -225,7 +225,7 @@ Install and Setup iotos http reporting to another http server
     - npm install  (if you get an error, first try "npm install npm", secondly, 
                     if on windows, see package.json trick above, then retry this 
                     command)
-    - nodejs event_emitter_web_app.js   
+    - nodejs test\event_emitter_web_app.js   
 
   - To configure and try out:
     - Note the ip address of where this test endpoint is running (ipconfig, ifconfig)

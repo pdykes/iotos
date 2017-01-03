@@ -1,5 +1,5 @@
 {
-	"player_1_pi": {
+	"alpha": {
 		"resources": {
 			"internal_IT" : {
 				"ip"             : "192.168.1.111",
@@ -21,6 +21,34 @@
 					"beta"		: "text_string"
 				}
 			},
+			"red light": {
+				"basis" : "led_light",
+				"instance" : "1",
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "24", 
+                   	  "led_mode" : "out"
+                   }
+				},
+				"custom" : {
+					"alpha" 	: "1",
+					"beta"		: "text_string"
+				}
+			},	
+			"light": {
+				"basis" : "led_light",
+				"instance" : "1",
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "24", 
+                   	  "led_mode" : "out"
+                   }
+				},
+				"custom" : {
+					"alpha" 	: "1",
+					"beta"		: "text_string"
+				}
+			},						
 			"red_warn_publish_light": {
 				"basis" : "led_light",
 				"instance" : "2",
@@ -49,10 +77,6 @@
                    	  "led_mode" : "out",
                    	  "led_interval" :  2000
                    }
-				},
-				"custom" : {
-					"alpha" 	: "1",
-					"beta"		: "text_string"
 				}
 			},			
 			"manual_yellow_warn_light": {
@@ -204,11 +228,11 @@
 			}
 		}
 	},
-	"player_2_pi": {
+	"beta": {
 		"resources": {
 			"internal_IT" : {
-				"ip"            : "192.168.1.111",
-				"port"          : "8080",
+				"ip"            : "192.168.1.118",
+				"port"          : "8085",
 				"iotos_root_uri" : "/api/v01"
 			},
 			"red_warning_light": {
@@ -221,6 +245,26 @@
                    }
 				}				
 			},
+			"light": {
+				"basis" : "led_light",
+				"instance" : "1",
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}				
+			},	
+			"blue light": {
+				"basis" : "led_light",
+				"instance" : "1",
+				"gpio" : {
+					"led_pin" : {
+                   	  "led_gpio_pin" : "14", 
+                   	  "led_mode" : "out"
+                   }
+				}				
+			},		
 			"manual_yellow_warn_light": {
 				"basis" : "led_push_button_yellow",
 				"instance" : "1",
@@ -362,7 +406,7 @@
 			}
 		}
 	},
-	"player_3_pi": {
+	"omega": {
 		"resources": {
 			"internal_IT" : {
 				"ip"            : "192.168.1.111",
@@ -520,10 +564,10 @@
 			}
 		}
 	},
-	"player_4_pi": {
+	"zeta": {
 		"resources": {
 			"internal_IT" : {
-				"ip"             : "192.168.1.110",
+				"ip"             : "192.168.1.6",
 				"port"           : "8081",
 				"iotos_root_uri" : "/api/v01"
 			},
