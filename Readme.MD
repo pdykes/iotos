@@ -408,3 +408,28 @@ Reference Information
   for more advanced work.  iotos tries to unleash the solution, not contain it. Thus, you should be
   able to extend iotos once you get more experienced.
 
+
+-----------------------------------------------------------------------------------------------
+
+New Features
+
+0.0.4 (mvp4 01-02-2017)
+
+- Alexa voice support (experimental)
+- liveActive commmand result in management tool (lists active resources and their state)
+- Tested further set intervals
+
+Between releases next step
+- Post a youtube video
+   - Overview
+   - Add support for a circuit
+   - Control a circuit
+   - Control more than one Pi
+   - Manage from on Pi and via a separate machine (windows box)
+   - Enable Alexa and control with voice (this requires an AWS account (no cost if careful))
+
+0.0.5 (mvp5 look ahead I'm thinking)
+
+- Angular based web management UI
+- Johnny-five examples added (show can you use more than one library)
+- make a windows package.json (on-off package keeps causing folks to email me)
