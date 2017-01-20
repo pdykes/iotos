@@ -250,7 +250,7 @@
 				"instance" : "1",
 				"gpio" : {
 					"led_pin" : {
-                   	  "led_gpio_pin" : "14", 
+                   	  "led_gpio_pin" : "24", 
                    	  "led_mode" : "out"
                    }
 				}				
